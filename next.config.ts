@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
   images: {
     // Required for static export; harmless in the Node build
     unoptimized: true,
+    // Documents the CEO portrait hotlink; only consulted if image
+    // optimization is ever re-enabled (unoptimized bypasses it today).
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+        pathname: "/dms/image/**",
+      },
+    ],
   },
   // Set NEXT_PUBLIC_BASE_PATH only when deploying to a project page (e.g. *.github.io/<repo>).
   // The vincevisiontech.github.io user site is served from the root, so the default is "".

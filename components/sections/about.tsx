@@ -73,7 +73,7 @@ export function About() {
               <div className="relative mx-auto w-full max-w-[220px]">
                 <Image
                   src={about.ceo.portrait}
-                  alt={`Portrait placeholder for ${about.ceo.name}`}
+                  alt={`Portrait of ${about.ceo.name}, Founder and CEO of VinceVision Technologies`}
                   width={220}
                   height={220}
                   className="aspect-square w-full rounded-2xl border border-slate-700/80 object-cover"

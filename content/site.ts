@@ -377,9 +377,12 @@ export const about = {
     name: "Mr. Vincent Omondi",
     role: "Founder & CEO · Principal Technology Architect",
     initials: "VO",
-    // TODO(placeholder): replace /public/ceo-portrait.svg with a real portrait.
-    portrait: "/ceo-portrait.svg",
-    portraitPlaceholder: true,
+    // CEO portrait. Currently hotlinked from LinkedIn's CDN per request.
+    // For maximum reliability, download the file and self-host it, e.g.
+    // portrait: "/ceo-portrait.jpg" (then no remote host dependency remains).
+    portrait:
+      "https://media.licdn.com/dms/image/v2/D4D03AQHHmfgCXp7OsA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1636396692080?e=2147483647&v=beta&t=1XGE4UH7oU78czs3dQHFHn26hAxjuffcfYuguLy0H0I",
+    portraitPlaceholder: false,
     quote:
       "Technology only matters when it serves people, context, and outcomes. VinceVision exists to translate complex capabilities — like AI, cloud, and cybersecurity — into systems your teams can trust and your customers can feel. We care about what ships, what scales, and what stays secure.",
     postscript:

@@ -125,8 +125,11 @@ Everything is editable in **`content/site.ts`** unless noted.
    and render with a "Sample" flag. Replace with verified numbers and remove the flag.
 2. **Case studies** — two dashed placeholder cards (`case-placeholder-1/2`); replace with real,
    client-approved engagements or delete them.
-3. **CEO portrait** — `public/ceo-portrait.svg` is a labelled placeholder; replace with a real
-   photo (update `about.ceo.portrait` and clear `portraitPlaceholder`).
+3. **CEO portrait** — currently hotlinked from LinkedIn's CDN (`about.ceo.portrait` in
+   `content/site.ts`). This works in browsers but is fragile: LinkedIn may block hotlinking or
+   rotate the token. Recommended: download the photo, save it as `public/ceo-portrait.jpg`, and
+   set `portrait: "/ceo-portrait.jpg"` — the labelled `public/ceo-portrait.svg` remains as a
+   fallback. The source image is only 200×200, so a higher-resolution original is preferred.
 4. **Business addresses** — Nairobi/London entries show an "Address placeholder" flag; add
    registered addresses (also flows into JSON-LD).
 5. **Social links** — `site.socials` currently point to `#`; add real URLs or remove entries.
