@@ -359,6 +359,20 @@ export const about = {
       note: "Every solution begins with clear architecture, security, and reliability.",
     },
   ],
+  // Figures stated by the company leadership; edit values here in one place.
+  netWorth: {
+    company: {
+      label: "Company Net Worth",
+      value: "KSh 50 Million",
+      note: "VinceVision Technologies' current net worth.",
+    },
+    ceo: {
+      label: "CEO Net Worth",
+      value: "KSh 100 Million",
+      andCounting: true,
+      note: "Mr. Vincent Omondi's personal net worth — and counting.",
+    },
+  },
   ceo: {
     name: "Mr. Vincent Omondi",
     role: "Founder & CEO · Principal Technology Architect",

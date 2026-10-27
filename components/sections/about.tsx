@@ -31,6 +31,40 @@ export function About() {
               </Reveal>
             ))}
           </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Reveal>
+              <div className="h-full rounded-2xl border border-cyan-400/30 bg-slate-950/50 p-5">
+                <p className="text-[0.66rem] uppercase tracking-[0.18em] text-slate-400">
+                  {about.netWorth.company.label}
+                </p>
+                <p className="mt-2 bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text font-display text-2xl font-semibold text-transparent">
+                  {about.netWorth.company.value}
+                </p>
+                <p className="mt-1.5 text-[0.72rem] leading-relaxed text-slate-400">
+                  {about.netWorth.company.note}
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="h-full rounded-2xl border border-violet-400/30 bg-slate-950/50 p-5">
+                <p className="text-[0.66rem] uppercase tracking-[0.18em] text-slate-400">
+                  {about.netWorth.ceo.label}
+                </p>
+                <p className="mt-2 bg-gradient-to-r from-violet-400 to-cyan-300 bg-clip-text font-display text-2xl font-semibold text-transparent">
+                  {about.netWorth.ceo.value}
+                  {about.netWorth.ceo.andCounting && (
+                    <span className="ml-2 align-middle font-sans text-sm font-medium normal-case tracking-normal text-slate-300">
+                      and counting
+                    </span>
+                  )}
+                </p>
+                <p className="mt-1.5 text-[0.72rem] leading-relaxed text-slate-400">
+                  {about.netWorth.ceo.note}
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
 
         <Reveal delay={0.15}>
