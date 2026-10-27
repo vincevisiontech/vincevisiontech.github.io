@@ -699,6 +699,18 @@
                 <p class="text-[0.7rem] text-slate-400 mt-1">Every solution begins with clear architecture, security, and reliability.</p>
               </div>
             </div>
+            <div class="grid sm:grid-cols-2 gap-4 text-xs">
+              <div class="vv-glass p-4 border border-sky-400/40">
+                <p class="text-slate-400 uppercase tracking-[0.16em] mb-1">Company Net Worth</p>
+                <p class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-200">KSh 50 Million</p>
+                <p class="text-[0.7rem] text-slate-400 mt-1">VinceVision Technologies' current net worth.</p>
+              </div>
+              <div class="vv-glass p-4 border border-fuchsia-400/30">
+                <p class="text-slate-400 uppercase tracking-[0.16em] mb-1">CEO Net Worth</p>
+                <p class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-sky-300">KSh 100 Million <span class="text-sm font-medium text-slate-300">and counting</span></p>
+                <p class="text-[0.7rem] text-slate-400 mt-1">Mr. Vincent Omondi's personal net worth — and counting.</p>
+              </div>
+            </div>
           </div>
           <div class="reveal">
             <div class="vv-border-gradient">
@@ -996,6 +1008,9 @@
       }
       if (q.includes('who is') && (q.includes('ceo') || q.includes('founder') || q.includes('vincent'))) {
         answers.push('The CEO and founder of VinceVision is Mr. Vincent Omondi, who acts as principal technology architect on key engagements.');
+      }
+      if (q.includes('net worth') || q.includes('networth') || q.includes('valuation') || q.includes('wealth') || q.includes('how much is')) {
+        answers.push('VinceVision Technologies currently has a net worth of KSh 50 million. The founder and CEO, Mr. Vincent Omondi, has a personal net worth of KSh 100 million and counting.');
       }
       if (q.includes('client') || q.includes('work with') || q.includes('who do you help') || q.includes('who you help')) {
         answers.push('Typical VinceVision clients include technology, product and operations leaders, founders, and organisations in financial services, public sector and development, commerce, retail, and creator-led brands such as Sharon Thriftwear.');
