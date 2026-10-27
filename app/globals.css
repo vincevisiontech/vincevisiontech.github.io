@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/* ----------------------------------------------------------------------------
-   VinceVision design tokens (Tailwind v4 @theme)
----------------------------------------------------------------------------- */
+/* ============================================================================
+   VinceVision — "Sentient Infrastructure" design system
+============================================================================ */
 @theme {
   --color-vv-bg: #020617;
   --color-vv-surface: #0b1023;
@@ -10,9 +10,12 @@
   --color-vv-cyan-soft: #67e8f9;
   --color-vv-violet: #a855f7;
   --color-vv-violet-soft: #c084fc;
+  --color-vv-hacker: #4ade80;
 
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-orbit: "Orbitron Variable", "Space Grotesk Variable", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --radius-vv: 1rem;
   --radius-vv-lg: 1.25rem;
@@ -22,13 +25,20 @@
   --shadow-card: 0 18px 45px rgba(2, 6, 23, 0.85);
 
   --animate-marquee: vv-marquee 42s linear infinite;
+  --animate-marquee-reverse: vv-marquee-reverse 38s linear infinite;
   --animate-pulse-soft: vv-pulse-soft 3.2s ease-in-out infinite;
   --animate-accordion-down: vv-accordion-down 0.25s ease-out;
   --animate-accordion-up: vv-accordion-up 0.25s ease-out;
+  --animate-scan: vv-scan 7s linear infinite;
+  --animate-flicker: vv-flicker 4.5s linear infinite;
 
   @keyframes vv-marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
+  }
+  @keyframes vv-marquee-reverse {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
   }
   @keyframes vv-pulse-soft {
     0%, 100% { opacity: 0.55; }
@@ -41,6 +51,18 @@
   @keyframes vv-accordion-up {
     from { height: var(--radix-accordion-content-height); opacity: 1; }
     to { height: 0; opacity: 0; }
+  }
+  @keyframes vv-scan {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+  @keyframes vv-flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.55; }
+    94% { opacity: 1; }
+    97% { opacity: 0.75; }
+    98% { opacity: 1; }
   }
 }
 
@@ -69,7 +91,6 @@ body {
   color: #f8fafc;
 }
 
-/* Anchor offset for sticky header */
 section[id] {
   scroll-margin-top: 5.5rem;
 }
@@ -78,6 +99,18 @@ section[id] {
   outline: 2px solid var(--color-vv-cyan);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Hide native cursor only on precise pointers when the custom reticle is live */
+@media (pointer: fine) {
+  body.vv-cursor-active,
+  body.vv-cursor-active a,
+  body.vv-cursor-active button,
+  body.vv-cursor-active input,
+  body.vv-cursor-active textarea,
+  body.vv-cursor-active [role="button"] {
+    cursor: none;
+  }
 }
 
 /* ----------------------------------------------------------------------------
@@ -99,7 +132,24 @@ section[id] {
     backdrop-filter: blur(20px);
   }
 
-  /* Gradient border hover wrapper */
+  /* Holographic panel: clipped corners + scanline sweep */
+  .vv-holo {
+    position: relative;
+    background: linear-gradient(160deg, rgba(11, 16, 35, 0.92), rgba(2, 6, 23, 0.86));
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    overflow: hidden;
+  }
+  .vv-holo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(34, 211, 238, 0.08), transparent);
+    height: 40%;
+    animation: var(--animate-scan);
+    pointer-events: none;
+  }
+
   .vv-gradient-border {
     position: relative;
     border-radius: var(--radius-vv-lg);
@@ -130,7 +180,8 @@ section[id] {
   }
 
   .vv-eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.24em] text-vv-cyan;
+    @apply text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-vv-cyan;
+    font-family: var(--font-mono);
   }
 
   .vv-heading {
@@ -142,20 +193,152 @@ section[id] {
     @apply bg-gradient-to-r from-vv-cyan via-vv-cyan-soft to-vv-violet-soft bg-clip-text text-transparent;
   }
 
+  .vv-mono {
+    font-family: var(--font-mono);
+  }
+
+  .vv-orbit {
+    font-family: var(--font-orbit);
+    letter-spacing: 0.08em;
+  }
+
   .vv-placeholder-flag {
-    @apply inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-amber-300;
+    @apply inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-amber-300;
+    font-family: var(--font-mono);
+  }
+
+  /* Giant outlined footer wordmark */
+  .vv-wordmark {
+    font-family: var(--font-orbit);
+    @apply font-bold uppercase leading-none;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(103, 232, 249, 0.35);
+    transition: text-shadow 0.4s ease;
+  }
+  .vv-wordmark:hover {
+    -webkit-text-stroke-color: rgba(168, 85, 247, 0.6);
+    text-shadow: 0 0 34px rgba(34, 211, 238, 0.25);
+  }
+
+  /* Redacted "classified" text */
+  .vv-redacted {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    border-radius: 2px;
+    transition: color 0.35s ease;
+  }
+  .vv-redacted::before {
+    content: "";
+    position: absolute;
+    inset: 0 2px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(100, 116, 139, 0.55) 0 6px,
+      rgba(71, 85, 105, 0.55) 6px 12px
+    );
+    transition: opacity 0.35s ease;
+  }
+  .group:hover .vv-redacted,
+  .vv-redacted:hover {
+    color: #cbd5e1;
+  }
+  .group:hover .vv-redacted::before,
+  .vv-redacted:hover::before {
+    opacity: 0;
+  }
+
+  /* Glitch reveal */
+  .vv-glitch {
+    position: relative;
+  }
+  .vv-glitch::before,
+  .vv-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .vv-glitch.vv-glitch-active::before {
+    opacity: 0.8;
+    color: var(--color-vv-cyan);
+    animation: vv-glitch-a 0.5s steps(2) 1;
+    clip-path: inset(0 0 55% 0);
+  }
+  .vv-glitch.vv-glitch-active::after {
+    opacity: 0.8;
+    color: var(--color-vv-violet);
+    animation: vv-glitch-b 0.5s steps(2) 1;
+    clip-path: inset(55% 0 0 0);
   }
 }
 
+@keyframes vv-glitch-a {
+  0% { transform: translate(-3px, -2px); }
+  50% { transform: translate(2px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes vv-glitch-b {
+  0% { transform: translate(3px, 2px); }
+  50% { transform: translate(-2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
 /* ----------------------------------------------------------------------------
-   Marquee (pauses on hover; disabled under reduced motion)
+   Overlays: grid floor, scanlines, noise grain, vignette
 ---------------------------------------------------------------------------- */
+.vv-grid-floor {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.14) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%);
+}
+
+.vv-scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.vv-noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 71;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ----------------------------------------------------------------------------
+   Marquees
+---------------------------------------------------------------------------- */
+.vv-marquee {
+  overflow: hidden;
+}
 .vv-marquee-track {
   display: flex;
   width: max-content;
   animation: var(--animate-marquee);
 }
-.vv-marquee:hover .vv-marquee-track {
+.vv-marquee-track-reverse {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-marquee-reverse);
+}
+.vv-marquee:hover .vv-marquee-track,
+.vv-marquee:hover .vv-marquee-track-reverse {
   animation-play-state: paused;
 }
 .vv-marquee-mask {
@@ -163,7 +346,93 @@ section[id] {
 }
 
 /* ----------------------------------------------------------------------------
-   Reduced motion — global guard
+   3D orbiting logo ring (pure CSS 3D, no WebGL cost)
+---------------------------------------------------------------------------- */
+.vv-ring-3d {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  transform-style: preserve-3d;
+  animation: vv-ring-spin 26s linear infinite;
+}
+.vv-ring-3d .vv-ring-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transform: rotateY(calc(var(--i) * (360deg / var(--n))));
+}
+.vv-ring-3d .vv-ring-item span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.85);
+  transform: translateY(-6px);
+}
+@keyframes vv-ring-spin {
+  from { transform: rotateX(68deg) rotateZ(0deg); }
+  to { transform: rotateX(68deg) rotateZ(360deg); }
+}
+
+/* ----------------------------------------------------------------------------
+   Custom reticle cursor
+---------------------------------------------------------------------------- */
+.vv-cursor-dot,
+.vv-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 999px;
+  transform: translate3d(-50%, -50%, 0);
+}
+.vv-cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-vv-cyan);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.9);
+}
+.vv-cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(34, 211, 238, 0.7);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.vv-cursor-ring.vv-hover {
+  width: 54px;
+  height: 54px;
+  border-color: rgba(168, 85, 247, 0.9);
+  background: rgba(168, 85, 247, 0.08);
+}
+#vv-cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Hacker theme (Konami / "vince" easter egg)
+---------------------------------------------------------------------------- */
+.vv-hacker {
+  --color-vv-cyan: #4ade80;
+  --color-vv-cyan-soft: #86efac;
+  --color-vv-violet: #22d3ee;
+  --color-vv-violet-soft: #67e8f9;
+}
+.vv-hacker body,
+body.vv-hacker {
+  background:
+    radial-gradient(1100px 520px at 85% -10%, rgba(74, 222, 128, 0.12), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(34, 211, 238, 0.08), transparent 60%),
+    #02040a;
+}
+
+/* ----------------------------------------------------------------------------
+   Reduced motion
 ---------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -177,7 +446,9 @@ section[id] {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .vv-marquee-track {
+  .vv-marquee-track,
+  .vv-marquee-track-reverse,
+  .vv-ring-3d {
     animation: none !important;
   }
 }
