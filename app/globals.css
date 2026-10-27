@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   VinceVision design tokens (Tailwind v4 @theme)
+---------------------------------------------------------------------------- */
+@theme {
+  --color-vv-bg: #020617;
+  --color-vv-surface: #0b1023;
+  --color-vv-cyan: #22d3ee;
+  --color-vv-cyan-soft: #67e8f9;
+  --color-vv-violet: #a855f7;
+  --color-vv-violet-soft: #c084fc;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-vv: 1rem;
+  --radius-vv-lg: 1.25rem;
+
+  --shadow-glow-cyan: 0 0 38px rgba(34, 211, 238, 0.18);
+  --shadow-glow-violet: 0 0 38px rgba(168, 85, 247, 0.18);
+  --shadow-card: 0 18px 45px rgba(2, 6, 23, 0.85);
+
+  --animate-marquee: vv-marquee 42s linear infinite;
+  --animate-pulse-soft: vv-pulse-soft 3.2s ease-in-out infinite;
+  --animate-accordion-down: vv-accordion-down 0.25s ease-out;
+  --animate-accordion-up: vv-accordion-up 0.25s ease-out;
+
+  @keyframes vv-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes vv-pulse-soft {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes vv-accordion-down {
+    from { height: 0; opacity: 0; }
+    to { height: var(--radix-accordion-content-height); opacity: 1; }
+  }
+  @keyframes vv-accordion-up {
+    from { height: var(--radix-accordion-content-height); opacity: 1; }
+    to { height: 0; opacity: 0; }
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Base
+---------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(1100px 520px at 85% -10%, rgba(168, 85, 247, 0.14), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(34, 211, 238, 0.12), transparent 60%),
+    var(--color-vv-bg);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+  color: #f8fafc;
+}
+
+/* Anchor offset for sticky header */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-vv-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ----------------------------------------------------------------------------
+   Components
+---------------------------------------------------------------------------- */
+@layer components {
+  .vv-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .vv-glass {
+    background:
+      radial-gradient(420px 200px at 0% 0%, rgba(34, 211, 238, 0.1), transparent 60%),
+      radial-gradient(420px 200px at 100% 100%, rgba(168, 85, 247, 0.1), transparent 60%),
+      rgba(11, 16, 35, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: var(--radius-vv-lg);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(20px);
+  }
+
+  /* Gradient border hover wrapper */
+  .vv-gradient-border {
+    position: relative;
+    border-radius: var(--radius-vv-lg);
+  }
+  .vv-gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from 210deg,
+      rgba(34, 211, 238, 0.9),
+      transparent 30%,
+      rgba(168, 85, 247, 0.9),
+      transparent 70%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .vv-gradient-border:hover::before,
+  .vv-gradient-border:focus-within::before {
+    opacity: 1;
+  }
+
+  .vv-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.24em] text-vv-cyan;
+  }
+
+  .vv-heading {
+    font-family: var(--font-display);
+    @apply text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl lg:text-4xl;
+  }
+
+  .vv-text-gradient {
+    @apply bg-gradient-to-r from-vv-cyan via-vv-cyan-soft to-vv-violet-soft bg-clip-text text-transparent;
+  }
+
+  .vv-placeholder-flag {
+    @apply inline-flex items-center rounded-full border border-amber-400/40 bg-amber-500/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-amber-300;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Marquee (pauses on hover; disabled under reduced motion)
+---------------------------------------------------------------------------- */
+.vv-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-marquee);
+}
+.vv-marquee:hover .vv-marquee-track {
+  animation-play-state: paused;
+}
+.vv-marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+/* ----------------------------------------------------------------------------
+   Reduced motion — global guard
+---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .vv-marquee-track {
+    animation: none !important;
+  }
+}
