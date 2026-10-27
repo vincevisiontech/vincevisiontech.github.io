@@ -9,19 +9,26 @@ import {
 
 export function Faq() {
   return (
-    <section id="faq" className="py-20 lg:py-28">
+    <section id="faq" className="border-y border-slate-800/60 bg-slate-950/40 py-20 lg:py-28">
       <div className="vv-container grid gap-10 lg:grid-cols-[0.9fr,1.4fr] lg:items-start">
         <SectionHeading
-          eyebrow="FAQ"
-          title="Questions leaders ask before engaging us."
-          description="Can't find your answer? Email or WhatsApp VinceVision directly — a decision-maker replies, not a support queue."
+          eyebrow="Query terminal // FAQ"
+          title="Questions leaders ask before opening a channel."
+          description="No answer here? Email or WhatsApp directly — a decision-maker responds, not a ticket queue."
         />
 
         <Accordion type="single" collapsible className="space-y-3">
-          {faqs.map((faq) => (
-            <AccordionItem key={faq.q} value={faq.q} className="rounded-2xl">
-              <AccordionTrigger>{faq.q}</AccordionTrigger>
-              <AccordionContent>{faq.a}</AccordionContent>
+          {faqs.map((faq, i) => (
+            <AccordionItem
+              key={faq.q}
+              value={faq.q}
+              className="vv-holo rounded-none border-0 px-5"
+            >
+              <AccordionTrigger className="vv-mono text-left text-[0.82rem] normal-case tracking-normal">
+                <span className="text-cyan-400">{String(i + 1).padStart(2, "0")} ~$</span>{" "}
+                {faq.q}
+              </AccordionTrigger>
+              <AccordionContent className="relative z-10 text-slate-300">{faq.a}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

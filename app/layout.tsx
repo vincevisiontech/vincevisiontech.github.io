@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/orbitron";
+import "@fontsource/geist-mono";
 import "./globals.css";
 import { site } from "@/content/site";
 import { Navbar } from "@/components/layout/navbar";
@@ -8,13 +10,14 @@ import { Footer } from "@/components/layout/footer";
 import { ChatWidget } from "@/components/chat/chat-widget";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Analytics } from "@/components/seo/analytics";
+import { SiteShell } from "@/components/providers/site-shell";
 
 const canonical = site.url;
 
 export const metadata: Metadata = {
   metadataBase: new URL(canonical),
   title: {
-    default: "VinceVision Technologies | AI, Cloud & Cybersecurity — Kenya & UK",
+    default: "VinceVision Technologies | Sentient Infrastructure — Kenya & UK",
     template: "%s | VinceVision Technologies",
   },
   description: site.description,
@@ -34,9 +37,8 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: canonical,
     siteName: site.name,
-    title: "VinceVision Technologies | AI, Cloud & Cybersecurity — Kenya & UK",
+    title: "VinceVision Technologies | Sentient Infrastructure",
     description: site.description,
-    // TODO(placeholder): replace /og-image.svg with a 1200×630 PNG for crawler compatibility.
     images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: site.name }],
   },
   twitter: {
@@ -70,14 +72,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-slate-950"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-[0.66rem] focus:font-semibold focus:uppercase focus:tracking-[0.2em] focus:text-slate-950"
         >
           Skip to content
         </a>
-        <Navbar />
-        <main id="main">{children}</main>
-        <Footer />
-        <ChatWidget />
+        <SiteShell>
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+          <ChatWidget />
+        </SiteShell>
         <Analytics />
       </body>
     </html>

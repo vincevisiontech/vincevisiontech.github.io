@@ -77,7 +77,6 @@ Regions: Kenya (Nairobi, Africa/Nairobi) and United Kingdom (London, Europe/Lond
 Contact: email ${site.email}; WhatsApp ${site.whatsapp.display} (${site.whatsapp.waLink}). No public contact forms.
 Engagement process: ${engagementSteps.join(" ")}
 About: ${about.paragraphs.join(" ")}
-Stated net worth: ${site.shortName}'s current company net worth is ${about.netWorth.company.value}; founder and CEO ${about.ceo.name}'s personal net worth is ${about.netWorth.ceo.value}${about.netWorth.ceo.andCounting ? " and counting" : ""}.
 Tech stack includes: ${techStack.join(", ")}.
 
 SERVICES:

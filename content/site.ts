@@ -359,27 +359,16 @@ export const about = {
       note: "Every solution begins with clear architecture, security, and reliability.",
     },
   ],
-  // Figures stated by the company leadership; edit values here in one place.
-  netWorth: {
-    company: {
-      label: "Company Net Worth",
-      value: "KSh 50 Million",
-      note: "VinceVision Technologies' current net worth.",
-    },
-    ceo: {
-      label: "CEO Net Worth",
-      value: "KSh 100 Million",
-      andCounting: true,
-      note: "Mr. Vincent Omondi's personal net worth — and counting.",
-    },
-  },
   ceo: {
     name: "Mr. Vincent Omondi",
     role: "Founder & CEO · Principal Technology Architect",
     initials: "VO",
-    // TODO(placeholder): replace /public/ceo-portrait.svg with a real portrait.
-    portrait: "/ceo-portrait.svg",
-    portraitPlaceholder: true,
+    // CEO portrait. Currently hotlinked from LinkedIn's CDN per request.
+    // For maximum reliability, download the file and self-host it, e.g.
+    // portrait: "/ceo-portrait.jpg" (then no remote host dependency remains).
+    portrait:
+      "https://media.licdn.com/dms/image/v2/D4D03AQHHmfgCXp7OsA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1636396692080?e=2147483647&v=beta&t=1XGE4UH7oU78czs3dQHFHn26hAxjuffcfYuguLy0H0I",
+    portraitPlaceholder: false,
     quote:
       "Technology only matters when it serves people, context, and outcomes. VinceVision exists to translate complex capabilities — like AI, cloud, and cybersecurity — into systems your teams can trust and your customers can feel. We care about what ships, what scales, and what stays secure.",
     postscript:
@@ -402,6 +391,29 @@ export const testimonials = [
     initials: "SN",
     link: "https://sharonthriftwear.github.io/",
     linkLabel: "sharonthriftwear.github.io",
+  },
+  // TODO(placeholder): replace with verified, permission-granted testimonials.
+  {
+    id: "testimonial-placeholder-1",
+    quote:
+      "Placeholder testimonial — replace with a verified client quote, name, and role once publication permission is granted.",
+    name: "Client name",
+    role: "Role, Organisation",
+    initials: "??",
+    link: "",
+    linkLabel: "",
+    placeholder: true,
+  },
+  {
+    id: "testimonial-placeholder-2",
+    quote:
+      "Placeholder testimonial — replace with a verified client quote, name, and role once publication permission is granted.",
+    name: "Client name",
+    role: "Role, Organisation",
+    initials: "??",
+    link: "",
+    linkLabel: "",
+    placeholder: true,
   },
 ] as const;
 
@@ -458,4 +470,104 @@ export const chatConfig = {
     "Hi, I'm the VinceVision assistant. Ask me about our services, where we operate, or how to get in touch.",
   offTopicMessage:
     "I can only answer questions about VinceVision Technologies — our services, industries, process, regions, and contact details. Is there something along those lines I can help with?",
+} as const;
+
+/* ------------------------------------------------------------------------- */
+/*  Boot sequence (first visit, once per session)                             */
+/* ------------------------------------------------------------------------- */
+
+export const bootLines = [
+  "Initializing VinceVision Core…",
+  "Nairobi node online",
+  "London node online",
+  "Linking AI cores…",
+  "Security layer armed",
+  "Calibrating holographic interface…",
+] as const;
+
+/* ------------------------------------------------------------------------- */
+/*  Launch event — TODO(placeholder): set the real UTC launch date.           */
+/* ------------------------------------------------------------------------- */
+
+export const launch = {
+  // ISO 8601 UTC. Replace before announcing; drives /launch countdown + ignition.
+  dateUtc: "2026-12-01T09:00:00Z",
+  title: "VinceVision Core goes live",
+  teaser: "Sentient infrastructure for two continents. One ignition moment.",
+  notifyEmailSubject: "Notify me — VinceVision launch",
+  notifyEmailBody:
+    "Hello VinceVision team,\n\nPlease notify me when VinceVision Core goes live.\n\nName:\nOrganisation:\n",
+  notifyWhatsapp:
+    "Hello VinceVision, please notify me when the new platform launches.",
+} as const;
+
+/* ------------------------------------------------------------------------- */
+/*  Launch kit — share assets, storyboard, announcement copy, checklist       */
+/* ------------------------------------------------------------------------- */
+
+export const launchKit = {
+  shareImages: [
+    {
+      file: "/launch/og-launch.svg",
+      label: "Primary OG / Twitter card (1200×630)",
+      note: "Replace with an exported PNG/JPG for maximum crawler compatibility.",
+    },
+    {
+      file: "/launch/og-launch-alt.svg",
+      label: "Alternate share card — globe motif (1200×630)",
+      note: "Use for follow-up posts and reminder campaigns.",
+    },
+  ],
+  storyboard: [
+    { t: "0.0–2.0s", shot: "Black screen. Boot terminal types: 'Initializing VinceVision Core…'", text: "Nairobi node online · London node online" },
+    { t: "2.0–4.5s", shot: "Holographic globe fades in, cyan grid floor extends to horizon", text: "Two continents. One intelligent infrastructure." },
+    { t: "4.5–7.0s", shot: "Glowing arc ignites between Nairobi and London, data pulses travel the curve", text: "AI · Cloud · Cybersecurity · Software" },
+    { t: "7.0–10.0s", shot: "Quick module cuts: AI console, circuit process path, holo service cards", text: "From slide-ware to shipped systems." },
+    { t: "10.0–12.5s", shot: "CEO portrait glitch-reveal with name and title", text: "Led by Mr. Vincent Omondi, Founder & CEO" },
+    { t: "12.5–15.0s", shot: "Shockwave ignition into the wordmark, URL and channels resolve", text: "vincevisiontech.github.io — Book a call" },
+  ],
+  announcements: {
+    linkedin: [
+      "Today VinceVision Technologies goes live. A cross-continent technology company built between Nairobi and London — AI, cloud, cybersecurity, and software engineering for organisations that need systems that actually ship. Explore the new site and book a call. #TechAfrica #AI #Cloud",
+      "From Nairobi to London, we're linking two technology markets with one operating standard. VinceVision Technologies is now live: applied AI, secure cloud, and full-cycle software delivery. Discover how we work — link in the comments.",
+      "Technology only matters when it serves people, context, and outcomes. That belief is now a company. VinceVision Technologies has launched — read the mission, explore the modules, and open a secure channel with our team.",
+    ],
+    x: [
+      "VinceVision Technologies is live. Nairobi × London. AI, cloud, cybersecurity, software — engineered to ship. https://vincevisiontech.github.io",
+      "Two nodes online. One infrastructure layer for Africa and the UK. VinceVision Core ignites today: https://vincevisiontech.github.io #Launch #AI",
+      "No slide-ware. Shipped systems. VinceVision Technologies launches — explore the new flagship site and book a call.",
+    ],
+    whatsapp: [
+      "VinceVision Technologies just launched 🌍 Nairobi × London — AI, cloud, cybersecurity and software engineering for ambitious organisations. Take a look: https://vincevisiontech.github.io",
+      "Hi team — sharing the new VinceVision site: AI, cloud and cyber solutions built across Kenya and the UK. Feedback welcome, and enquiries are open via email or WhatsApp. https://vincevisiontech.github.io",
+      "It's live. VinceVision Technologies — cross-continent technology delivery from Nairobi and London. Explore modules, process and case work here: https://vincevisiontech.github.io",
+    ],
+  },
+  checklist: [
+    "Set the real launch date in content/site.ts (launch.dateUtc) and redeploy",
+    "Export OG SVG cards to 1200×630 PNGs and update metadata references",
+    "Record/produce the 15s teaser from the storyboard and add captions",
+    "Replace placeholder metrics, case studies, CEO photo and social links",
+    "Set ANTHROPIC_API_KEY if deploying to Vercel for the live Vince Core console",
+    "Schedule LinkedIn/X/WhatsApp announcements (3 variants each above)",
+    "Verify email (Proton) and WhatsApp (+254 742 850266) channels are monitored on launch day",
+    "Run Lighthouse pass on the production URL; confirm sitemap/robots/JSON-LD validate",
+    "Confirm GitHub Pages source is set to GitHub Actions deployment",
+    "Legal review of /privacy and /terms before public promotion",
+  ],
+} as const;
+
+/* ------------------------------------------------------------------------- */
+/*  Experience settings                                                       */
+/* ------------------------------------------------------------------------- */
+
+export const experience = {
+  storageKeys: {
+    lite: "vv-lite-mode",
+    boot: "vv-boot-seen",
+    sound: "vv-sound-on",
+  },
+  // Sound is OFF by default; the nav toggle enables WebAudio UI sounds.
+  soundDefaultOn: false,
+  hackerThemeClass: "vv-hacker",
 } as const;

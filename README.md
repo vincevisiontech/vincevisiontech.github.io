@@ -1,145 +1,137 @@
-# VinceVision Technologies — Company Website
+# VinceVision Technologies — Cinematic Flagship
 
-Production-grade marketing site for **VinceVision Technologies** (Kenya 🇰🇪 + United Kingdom 🇬🇧):
-AI, cloud, cybersecurity, software engineering, digital commerce, and advisory.
+An Awwwards-style flagship experience for **VinceVision Technologies** (Nairobi 🇰🇪 × London 🇬🇧):
+AI/automation/data, cloud/DevOps, cybersecurity, software engineering, digital commerce, and advisory.
 
-Built with a dark "mission control" identity — cyan `#22d3ee` / violet `#a855f7` on near-black `#020617`.
-
----
+Design language: **"Sentient infrastructure"** — holographic HUD panels, scanlines, grid floors,
+a WebGL globe linking Nairobi ↔ London, GLSL shaders, custom reticle cursor, and a boot sequence.
+Cyan `#22d3ee` / violet `#a855f7` on near-black `#020617`.
 
 ## Stack
 
-| Concern | Choice |
-| --- | --- |
-| Framework | **Next.js 15** (App Router, React 19, TypeScript) |
-| Styling | **Tailwind CSS v4** (CSS-first `@theme` tokens) |
-| Motion | **Framer Motion** (scroll reveals, magnetic CTAs, count-up, carousel), canvas particle network |
-| UI primitives | **shadcn/ui**-pattern components on Radix (accordion, tabs, slot) |
-| Fonts | Inter Variable (UI) + Space Grotesk Variable (headings), self-hosted via Fontsource |
-| AI assistant | `/api/chat` Route Handler → Anthropic Claude (SSE streaming, in-memory rate limit) |
-| Deploy | Vercel/Node (full) or static export for GitHub Pages |
+- **Next.js 15** (App Router, React 19, TypeScript), static-export capable
+- **Tailwind CSS v4** CSS-first theme tokens
+- **React Three Fiber + Three.js** with custom GLSL, `@react-three/postprocessing` bloom — lazy-loaded
+- **GSAP + ScrollTrigger** (pinned services bay, scroll-drawn circuit), **Lenis** smooth scroll
+- **Framer Motion** (reveals, carousel, ignition), Radix primitives in shadcn-style wrappers
+- Orbitron / Space Grotesk (display), Geist Mono (data), Inter (body), self-hosted via Fontsource
+- WebAudio synth UI sounds (no audio assets; muted by default)
+- `/api/chat` Claude route (Node/Vercel deployments), graceful email/WhatsApp fallback on static hosting
 
 ## Project structure
 
 ```
 app/
-  layout.tsx            Metadata, OG/Twitter, fonts, JSON-LD, analytics slots
-  page.tsx              Section composition
-  globals.css           Tailwind v4 tokens + design system
-  api/chat/route.ts     Claude streaming endpoint, rate limiting, site-scoped prompt
-  sitemap.ts robots.ts manifest.ts icon.svg
-  privacy/ terms/ not-found.tsx
+  layout.tsx              Metadata, OG/Twitter, JSON-LD, fonts, analytics slots, SiteShell
+  page.tsx                One continuous scroll-driven story (all sections)
+  launch/                 /launch countdown + T-0 ignition
+  launch-kit/             Share assets, storyboard, announcement copy, checklist
+  api/chat/route.ts       Claude SSE streaming, rate limiting, scoped system prompt
+  sitemap.ts robots.ts manifest.ts icon.svg not-found.tsx privacy/ terms/
 components/
-  layout/ sections/ shared/ ui/ chat/ seo/ contact/ hero/
-content/
-  site.ts               ← SINGLE SOURCE OF TRUTH: all copy, contact, services, metrics
-lib/utils.ts            cn(), mailto/WhatsApp link builders
-scripts/build-static.mjs  Static-export helper (parks the API route during build)
-public/                 og-image.svg, ceo-portrait.svg
+  boot/                   First-visit boot sequence (once per session, skippable)
+  three/                  R3F holographic globe scene + WebGL error boundary
+  cursor/                 Glowing reticle + particle trail
+  providers/              Experience state (lite/hacker/sound), Lenis, site shell
+  sections/               Hero, Services, Process, LiveDemo, Work, Industries,
+                          TechStack, About, Testimonials, Faq, Contact
+  chat/                   Vince Core terminal console + floating widget
+  layout/ shared/ ui/ seo/ contact/ launch/
+content/site.ts           ← SINGLE SOURCE OF TRUTH for all copy and config
+lib/                      Device tier, text scramble, WebAudio sound engine, link builders
+public/launch/            Launch OG share cards (SVG)
+scripts/build-static.mjs  Static export helper (parks the API route during build)
 ```
 
 ## Getting started
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in values
-npm run dev                  # http://localhost:3000
+cp .env.example .env.local   # fill in values (only required for live AI chat)
+npm run dev
 ```
 
 ### Environment variables
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | For AI chat | Enables `/api/chat`. If unset, the widget stays visible and answers with an email/WhatsApp fallback. |
-| `ANTHROPIC_MODEL` | Optional | Defaults to `claude-sonnet-4-5`. |
-| `ANTHROPIC_SYSTEM_SUFFIX` | Optional | Extra guidance appended to the generated system prompt. |
-| `NEXT_PUBLIC_SITE_URL` | Yes for SEO | Canonical URL; feeds metadata, sitemap, JSON-LD. Defaults to `https://vincevisiontech.github.io`. |
-| `NEXT_PUBLIC_BASE_PATH` | Optional | Only for GitHub **project** pages (`/<repo>`). Leave empty for the root user site. |
-| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Optional | Enables Plausible analytics. |
-| `NEXT_PUBLIC_GA_ID` | Optional | Enables Google Analytics 4 (`G-…`). |
+| `ANTHROPIC_API_KEY` | For AI chat | Enables `/api/chat`; without it the terminal falls back to email/WhatsApp. |
+| `ANTHROPIC_MODEL` | Optional | Default `claude-sonnet-4-5`. |
+| `ANTHROPIC_SYSTEM_SUFFIX` | Optional | Extra system-prompt guidance. |
+| `NEXT_PUBLIC_SITE_URL` | SEO | Canonical URL for metadata, sitemap, JSON-LD. |
+| `NEXT_PUBLIC_BASE_PATH` | Optional | GitHub **project** pages only; leave empty for the root user site. |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` / `NEXT_PUBLIC_GA_ID` | Optional | Analytics slots — render nothing until set. |
 
 ### Scripts
 
 ```bash
 npm run dev            # dev server
-npm run build          # production build (Node/Vercel; includes /api/chat)
-npm run start          # serve the production build
-npm run build:static   # static export → /out (GitHub Pages; chat falls back to email/WhatsApp)
-npm run lint           # ESLint (next/core-web-vitals)
+npm run build          # Node/Vercel build (includes /api/chat)
+npm run start          # serve production build
+npm run build:static   # static export → /out for GitHub Pages
+npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
 ```
 
+## The experience
+
+1. **Boot sequence** — terminal system check with progress ring (~4.2s), skippable, once per session, ignites into the hero.
+2. **Hero** — R3F holographic globe (custom fresnel/grid GLSL), glowing Nairobi↔London arc with traveling data pulse, cursor-reactive particle field, bloom; letter-by-letter decoded headline.
+3. **Services** — GSAP-pinned horizontal module bay (desktop), snap-scroll on touch, 3D-tilt holo cards with per-service email/WhatsApp CTAs.
+4. **Process** — Discover → Architect → Build → Operate as a circuit path that draws itself on scroll.
+5. **Live demo** — Vince Core terminal: describe a problem, receive a streamed scoped recommendation.
+6. **Work** — Sharon Thriftwear featured card with live link + two redacted "classified" placeholders.
+7. **Industries** — tabbed holographic panels.
+8. **Tech stack** — dual-direction infinite marquees + CSS-3D orbiting logo ring.
+9. **About / CEO** — glitch-reveal, portrait, quote, live Nairobi/London clocks.
+10. **Testimonials** — swipeable 3D carousel (drag / arrows / keyboard).
+11. **FAQ** — terminal-style accordion.
+12. **Contact** — "open a secure channel", email + WhatsApp only, transmitting button state.
+13. **Footer** — giant outlined wordmark, sitemap, socials, legal, back-to-top.
+
+**Easter eggs:** Konami code (`↑↑↓↓←→←→ B A`) or typing `vince` toggles a hacker theme; `/` opens Vince Core; Esc closes it.
+
+## Performance, accessibility, graceful degradation
+
+- **Device-tier detection** auto-enables Lite mode on mobile/low-core/low-memory/reduced-motion; a manual Lite toggle persists in `localStorage` and removes WebGL, cursor, and heavy effects.
+- All Three.js code is dynamically imported (~700 KB of 3D stays out of the initial 234 KB First Load JS); the canvas pauses off-screen; a CSS hologram renders if WebGL fails.
+- `prefers-reduced-motion` disables Lenis, marquees, ring, glitch, scramble, boot, and 3D animations.
+- Semantic landmarks, skip link, keyboard-operable tabs/accordion/carousel/console, ARIA labels, AA contrast.
+- SEO: metadata, OG/Twitter, JSON-LD (Organization + LocalBusiness), sitemap, robots, manifest, SVG icon.
+
 ## Deployment
 
-### Vercel (recommended — full AI chat)
+### GitHub Pages (static — current setup)
 
-1. Import the repository, framework preset **Next.js** is detected automatically.
-2. Add the env vars above (at minimum `ANTHROPIC_API_KEY` and `NEXT_PUBLIC_SITE_URL`).
-3. Deploy. The Route Handler runs on Vercel's Node runtime with no extra configuration.
+`npm run build:static` emits `/out`; `.github/workflows/deploy-pages.yml` builds and deploys on every
+push to `main`. Under **Settings → Pages → Source**, choose **GitHub Actions** (one-time setting).
+Static hosting cannot run `/api/chat`, so Vince Core falls back to email/WhatsApp automatically.
 
-### GitHub Pages (static)
+### Vercel (full AI chat)
 
-The repo is the **user site** `vincevisiontech.github.io`, so it serves from the root — no `basePath` needed.
-
-```bash
-npm run build:static   # emits /out
-```
-
-Publish `/out` (e.g. via the official `actions/upload-pages-artifact` workflow). Because static
-hosting cannot run Route Handlers, the script temporarily parks `app/api` during export and the
-chat widget automatically falls back to email/WhatsApp when the endpoint is absent.
-
-> For a project page instead, set `NEXT_PUBLIC_BASE_PATH=/<repo>` before `build:static`.
-
-A ready-made workflow is included at `.github/workflows/deploy-pages.yml`. Enable it once under
-**Settings → Pages → Build and deployment → Source: GitHub Actions**; every push to `main` then
-builds `/out` and deploys automatically.
-
-## AI assistant design
-
-- **Click-to-open only** — no auto-popup, no notification dot. Closes on `Esc`.
-- POSTs the last 12 messages to `/api/chat`, which streams Claude tokens back over SSE.
-- The system prompt is **generated from `content/site.ts`**, scoped strictly to company questions;
-  off-topic questions are declined and redirected to contact channels.
-- **Rate limiting:** 5 requests / 10 minutes per IP (in-memory; swap for Upstash/Redis at scale)
-  plus a client-side minimum send interval and 500-char input cap.
-- Any failure (missing key, 429, network, static hosting) renders an in-widget email/WhatsApp fallback.
-
-## Quality, accessibility & performance
-
-- Semantic landmarks, skip link, keyboard-operable tabs/accordion/carousel/widget, `aria` labels,
-  visible focus rings, AA-checked color pairs.
-- `prefers-reduced-motion` disables canvas animation, marquee, and Framer transitions.
-- Self-hosted fonts, `next/image`, client components lazy below the fold, no layout shift.
-- Homepage First Load JS ≈ **189 kB**; target Lighthouse 95+ on all four categories.
-- SEO: canonical URL, Open Graph + Twitter cards, JSON-LD (`Organization` + two `LocalBusiness`
-  nodes), `sitemap.xml`, `robots.txt`, web manifest, SVG icon set.
+Import the repo, add `ANTHROPIC_API_KEY` (+ `NEXT_PUBLIC_SITE_URL`), deploy. No code changes;
+the Route Handler streams Claude with per-IP rate limiting (5 requests / 10 minutes, in-memory).
 
 ---
 
-## ⚠️ Placeholders to replace before launch
+## Placeholders to replace
 
-Everything is editable in **`content/site.ts`** unless noted.
+All editable in **`content/site.ts`** unless noted.
 
-1. **Metrics** (`metrics`) — projects delivered, countries, years are marked `isPlaceholder: true`
-   and render with a "Sample" flag. Replace with verified numbers and remove the flag.
-2. **Case studies** — two dashed placeholder cards (`case-placeholder-1/2`); replace with real,
-   client-approved engagements or delete them.
-3. **CEO portrait** — `public/ceo-portrait.svg` is a labelled placeholder; replace with a real
-   photo (update `about.ceo.portrait` and clear `portraitPlaceholder`).
-4. **Business addresses** — Nairobi/London entries show an "Address placeholder" flag; add
-   registered addresses (also flows into JSON-LD).
-5. **Social links** — `site.socials` currently point to `#`; add real URLs or remove entries.
-6. **OG image** — `public/og-image.svg` is a branded placeholder; most crawlers prefer a
-   **1200×630 PNG** (swap the file and update the `openGraph.images` reference in `app/layout.tsx`).
-7. **Favicon set** — SVG icon is included; add `.ico`/PNG variants if broader legacy support is needed.
-8. **Legal pages** — `/privacy` and `/terms` are starter copy flagged for legal review in KE & UK.
-9. **Founding year** — review `site.foundingYear` (used in JSON-LD).
+1. **Launch date** — `launch.dateUtc` (currently `2026-12-01T09:00:00Z`); drives `/launch`.
+2. **CEO photo** — currently hotlinked from LinkedIn (`about.ceo.portrait`); self-host a
+   high-resolution file as `public/ceo-portrait.jpg` and point the config at it.
+3. **Metrics** — four `metrics` entries are flagged "Sample" in the UI; replace with verified values.
+4. **Case studies** — two "classified" cards; replace with cleared engagements or delete.
+5. **Testimonials** — two placeholder entries alongside the verified Sharon Nyambura quote.
+6. **Social links** — `site.socials` point to `#`.
+7. **Business addresses** — Nairobi/London entries carry "Address placeholder" flags.
+8. **Launch OG cards** — SVG starters in `public/launch/`; export 1200×630 PNGs for crawlers.
+9. **Legal pages** — starter `/privacy` and `/terms`; obtain KE/UK legal review.
+10. **Founding year** — verify `site.foundingYear` (used in JSON-LD).
 
-## Content fixes carried over from the legacy single-file site
+## Content rules enforced
 
-- WhatsApp number standardised everywhere to **+254 742 850266** / `wa.me/254742850266`
-  (the previous broken `+257…` variant is gone).
-- Removed the unverifiable **company/CEO net-worth** blocks and their chatbot answers.
-- Removed the fabricated **99.98% uptime** stat, the "Live" badge, and "Site AI status" filler.
-- No public contact form — email/WhatsApp policy preserved.
+- No net-worth figures, no fabricated uptime statistics, no fake status/"Live" badges.
+- WhatsApp is always **+254 742 850266** / `wa.me/254742850266`; email **vincevisiontech@proton.me**.
+- No public contact form — email/WhatsApp channels only.
